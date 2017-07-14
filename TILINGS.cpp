@@ -21,7 +21,7 @@ typedef vector<PII> VPII;
 
 int mod = 10000;
 vector<VI> memo;
-
+//recursive aproach, it generates recursion limit
 int do_DP(int n, int cas) {
     if(n == 0 && cas == 0)
         return 1;
@@ -57,34 +57,38 @@ int main() {
 
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    //vector<VI> aux(3, VI(1000000));
+
     for (int n; cin >> n; ) {
         //memo.assign(3, VI(n + 1, -1));
         //cout << do_DP(n, 0) << "\n";
-        vector<VI> dp(3, VI(n + 1, 0));
+        int tam = 3;
+        vector<VI> dp(3, VI(tam, 0));
         dp[0][0] = 1;
 
-
+        int idx, idx_1, idx_2;
         for (int i = 1; i <= n; i++) {
-            if (i - 1 >= 0){
-                dp[0][i] += dp[0][i - 1];
-                dp[0][i] %= mod;
+            idx = i % tam;
+            idx_1 = (i + tam - 1) % tam;
+            idx_2 = (i + tam - 2) % tam;
+            //if (i - 1 >= 0){
+            dp[0][idx] = dp[0][idx_1];
+            dp[0][idx] %= mod;
 
-                dp[1][i] += dp[0][i - 1] + dp[2][i - 1];
-                dp[1][i] %= mod;
+            dp[1][idx] = dp[0][idx_1] + dp[2][idx_1];
+            dp[1][idx] %= mod;
 
-                dp[2][i] += dp[0][i - 1] + dp[1][i - 1];
-                dp[2][i] %= mod;
-            }
-            if (i - 2 >= 0){
-                dp[0][i] += dp[0][i - 2];
-                dp[0][i] += dp[1][i - 2];
-                dp[0][i] += dp[2][i - 2];
-                dp[0][i] %= mod;
-            }
+            dp[2][idx] = dp[0][idx_1] + dp[1][idx_1];
+            dp[2][idx] %= mod;
+            //}
+            //if (i - 2 >= 0){
+            dp[0][idx] += dp[0][idx_2];
+            dp[0][idx] += dp[1][idx_2];
+            dp[0][idx] += dp[2][idx_2];
+            dp[0][idx] %= mod;
+            //}
         }
 
-        cout << dp[0][n] << "\n";
+        cout << dp[0][n % tam] << "\n";
     }
 
 return 0;
