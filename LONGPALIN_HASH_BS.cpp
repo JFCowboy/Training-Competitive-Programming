@@ -124,8 +124,8 @@ int main() {
         //freopen("output.txt", "wt", stdout);
     #endif
 
-//    ios::sync_with_stdio(false);
-//    cin.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
     string str;
     for(int n; cin >> n; ) {
